@@ -1,0 +1,246 @@
+﻿======================================================
+ [ pyauto ]
+======================================================
+
+:著作者: craftware
+:連絡先: craftware@gmail.com
+:開発環境: Python + VisualC++2008
+:種別: フリーウェア
+:動作環境: Windows 2000/XP/Vista/7
+:Webサイト: http://sites.google.com/site/craftware/
+
+.. contents::
+
+
+
+このソフトウェアについて
+=========================
+
+    pyautoは、Windowsの操作をカスタマイズ/自動化するための、Python拡張モジュールです。
+
+    pyautoを使うことによって、以下のことが可能になります。
+
+    - デスクトップのウインドウの状態の取得
+    - キー入力やフォーカス移動をフック
+    - 擬似的なマウス/キーボード入力
+
+    pyautoはフリーソフトウェアです。ソースコードが公開されています。
+
+
+動作環境
+=========
+
+    pyautoを利用するには以下の環境が必要です。
+
+    - Windows
+    - Python 2.7
+
+連絡先
+=======
+
+    pyautoに関する質問や要望は、
+
+    - http://sites.google.com/site/craftware/
+    - .. image:: image/mailaddress.png
+
+    までお願いします。
+
+
+APIリファレンス
+================
+
+    pyauto が提供しているのクラスや関数の詳細については、
+    APIリファレンス_ を参照してください。
+
+    .. _APIリファレンス: reference/index.html
+
+
+
+更新履歴
+=========
+
+    **1.28**
+
+        - Window.maximize(), Window.minimize(), Window.restore() に、SetWindowPlacement() ではなく、WM_SYSCOMMAND を使うようにした。
+          これにより、最大化したまま最小化したウインドウを restore() するときに、通常サイズに戻ることなく、最大化状態で復帰するようにした。
+
+        - ビルド方法の整理。C++部分は Visual C++ 2008 (Express)を使うようにした。
+
+        - ドキュメント生成に使用している Doxygen のバージョンアップ
+
+    **1.27**
+
+        - KEYEVENTF_UNICODE | KEYEVENTF_KEYUP の送り漏れ修正
+
+    **1.26**
+
+        - python27を使うようにした。
+
+        - Window.getImeStatus / Window.setImeStatus を追加
+
+        - クリップボードビューアのチェインの後続に WM_DRAWCLIPBOARD を通知していなかったのを修正。
+
+    **1.25**
+
+        - setForeground の force 引数を使った後、インプットとスレッドの関連付けを元に戻してなかったのを修正
+
+    **1.24**
+
+        - focus のフックは、64bit のアプリで動作しないので廃止。
+          (代わりにgetFocus()を使用することができる。)
+
+    **1.23**
+
+        - クリップボードのフックにNoneを渡したときに、クリップボードビューアを解除し忘れていたのを修正
+
+    **1.22**
+
+        - Input.getKeyState(), Input.getAsyncKeyState() を追加
+
+        - setDebug() を追加
+
+        - Window.getClientRect(), Window.clientToScreen(), Window.getCaret() を追加
+
+        - Window.getFocus() で AttachThreadInput を使わず GetGUIThreadInfo を使うようにした。AttachThreadInputには副作用があるため。
+
+        - Window.getProcessName と Window.getProcessPath で、ウィンドウを作成したプロセスが見つからなかったときは、エラーにするのではなくて、空文字列を返すようにした。
+
+        - ドキュメントの形式を Rst と Doxygen に変更
+
+    **1.21**
+
+        - キーフックはDLLの中で受け取る必要がなかったので、pyautocore モジュールの中で受け取るようにした。
+
+        - 擬似入力イベントの dwExtraInfo と time に、適切に情報を入れる。
+
+        - printf の代わりに python の sys.stdout を使ってメッセージを出力する。
+
+    **1.20**
+
+        - Window.setActive を追加
+
+    **1.19**
+
+        - Hook.clipboard を追加。クリップボードの変更通知を受け取るためのフック関数。
+
+        - python26を使うようにした。
+
+    **1.18**
+
+        - Window.getFileName を Window.getProcessPath と改名
+
+        - Window.getProcessName を追加。Window.getProcessPath は 64bit で動作するプロセスには機能しないので、代わりにこちらを使う必要がある。
+
+        - Window.getFocus を追加。
+
+        - Input.getKeyboardState, Input.setKeyboardState を追加
+
+    **1.17**
+
+        - Char() に 長さ１の文字を与えられるようにした。
+
+        - 仮想キーコードで抜けていた分を追加した。
+
+        - Hook.destroy() を追加。
+
+        - Window.getFileName がメモリ不足エラーを返すことがあるので、調査のために詳細なメッセージを出すようにする。
+
+        - Window.getFileName がメモリ不足エラーを修正するために、秘密のビット TH32CS_SNAPNOHEAPS を追加。
+
+        - Input の __repr__ を定義した。
+
+    **1.16**
+
+        - Window.getLastActivePopup() を追加
+
+    **1.15**
+
+        - Window.getMonitorInfo() のメモリリークを修正
+
+    **1.14**
+
+        - Window.getMonitorInfo() を追加
+
+    **1.13**
+
+        - Inputクラスで拡張キー(右シフトなど)の扱いが正しくなかったのを修正
+
+        - keymapサンプルを更新
+
+    **1.12**
+
+        - messageLoopのなかのメッセージ待ちの時間は、ほかのPythonスレッドの動作を許す
+
+    **1.11**
+
+        - Win32API のエラーは OSError ではなく WindowsError を使う
+
+        - Window.setForeground() に、force 引数を追加
+
+        - Inputクラスのマウスクリック系でマウス移動が無効になっていたのを修正
+
+        - フック終了後に、プロセス間共有のprintfのバッファを吐き出す
+
+    **1.10**
+
+        - Key/KeyDown/KeyUpの引数に1文字の文字列を与えられた場合は、自動的に仮想キーコードに変換するようにした。これに伴って1.09 でkeymapサンプルが動かなかった問題が修正された。
+
+    **1.09**
+
+        - SendMessageTimeout が 1400エラーになったときは、ウインドウハンドルを再取得する
+
+        - keymapサンプルで、モディファイアキーが押しっぱなしになるのを修正
+
+        - notepadをemacs風にするサンプルを拡充
+
+    **1.08**
+
+        - keymapサンプルを追加。フックを使用して、キー操作を各ウインドウ毎にカスタマイズするサンプル。
+
+    **1.07**
+
+        - window_enumサンプルを追加
+
+        - Window.getFileName() を追加
+
+        - Window.getHWND() / Window.fromHWND() を追加
+
+    **1.06**
+
+        - MouseMiddleDown / MouseMiddleUp / MouseMiddleClick / MouseWheel クラスを追加
+
+        - Input.getCursorPos() スタティックメソッドを追加
+
+    **1.05**
+
+        - Pythonのバージョンを2.5に
+
+        - HookクラスおよびmessageLoop()を追加
+
+    **1.04**
+
+        - Inputクラスの派生クラスとしてCharクラスを追加
+
+    **1.03**
+
+        - Image.find() で、横幅または高さが同じ画像の検索に常に失敗していた不具合の修正
+
+    **1.02**
+
+        - pyauto_const.pyに、WM_* と SC_* をいくつか追加
+        - shellExecuteの引数swmodeには整数ではなく文字列を受け取るようにした
+        - window_messageサンプルを追加
+        - shellexecuteサンプルを追加
+
+    **1.01**
+
+        - Window.getClientRectを廃止
+        - Window.setRectを追加
+        - Window.minimizeを追加
+        - Window.maximizeを追加
+        - Window.restoreを追加
+        - Window.setForegroundで、スレッドのインプット状態を切り替えながらフォアグラウンド化をするようにした。
+
+    **1.00**
+
+        - 最初の公開

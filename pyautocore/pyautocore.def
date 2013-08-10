@@ -1,0 +1,3 @@
+LIBRARY pyautocore.pyd
+EXPORTS
+initpyautocore@0
