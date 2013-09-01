@@ -3,12 +3,12 @@ import sys
 import subprocess
 import shutil
 import zipfile
-import md5
+import hashlib
 
 DIST_DIR = "dist/pyauto"
 DIST_SRC_DIR = "dist/src"
 
-PYTHON_DIR = "c:/python27"
+PYTHON_DIR = "c:/python33"
 PYTHON = PYTHON_DIR + "/python.exe"
 SVN_DIR = "c:/Program Files/TortoiseSVN/bin"
 DOXYGEN_DIR = "c:/Program Files/doxygen"
@@ -38,10 +38,10 @@ def createZip( zip_filename, items ):
             for root, dirs, files in os.walk(item):
                 for f in files:
                     f = os.path.join(root,f)
-                    print f
+                    print( f )
                     z.write(f)
         else:
-            print item
+            print( item )
             z.write(item)
     z.close()
 
@@ -65,27 +65,19 @@ def exe():
     shutil.copytree( "doc/html", DIST_DIR + "/doc", ignore=shutil.ignore_patterns(".svn") )
 
     if 1:
-        rmtree( DIST_SRC_DIR )
-        makedirs( DIST_SRC_DIR )
-        os.chdir(DIST_SRC_DIR)
-        subprocess.call( [ SVN_DIR + "/svn.exe", "export", "--force", "../../../pyauto" ] )
-        createZip( "../pyauto/src.zip", [ "pyauto" ] )
-        os.chdir("../..")
-
-    if 1:
         os.chdir("dist")
         createZip( "pyauto.zip", DIST_FILES )
         os.chdir("..")
     
     fd = open("dist/pyauto.zip","rb")
-    m = md5.new()
+    m = hashlib.md5()
     while 1:
         data = fd.read( 1024 * 1024 )
         if not data: break
         m.update(data)
     fd.close()
-    print ""
-    print m.hexdigest()
+    print( "" )
+    print( m.hexdigest() )
 
 def rebuild():
     clean()
