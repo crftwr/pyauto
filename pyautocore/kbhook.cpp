@@ -33,7 +33,8 @@ LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 	}
 
 	// プログラムによって挿入されたキーイベントはスクリプトで処理しない
-	if( pkbdllhook->flags & LLKHF_INJECTED )
+	// vkCode==0 のイベントは特別扱いし、必ず Python で処理する
+	if( pkbdllhook->vkCode && pkbdllhook->flags & LLKHF_INJECTED )
 	{
 		LRESULT result = CallNextHookEx(key_hook, nCode, wParam, lParam);
 		return result;
