@@ -1673,6 +1673,10 @@ static PyObject * Input_repr( PyObject * self )
 					{
 						_snprintf_s( buf, sizeof(buf), _TRUNCATE, "MouseWheel(%d,%d,%d)", input.mi.dx, input.mi.dy, input.mi.mouseData );
 					}
+					else if( input.mi.dwFlags & MOUSEEVENTF_HWHEEL )
+					{
+						_snprintf_s( buf, sizeof(buf), _TRUNCATE, "MouseHorizontalWheel(%d,%d,%d)", input.mi.dx, input.mi.dy, input.mi.mouseData );
+					}
 					else
 					{
 						_snprintf_s( buf, sizeof(buf), _TRUNCATE, "MouseMove(%d,%d)", input.mi.dx, input.mi.dy );
@@ -2178,6 +2182,31 @@ static PyObject * Input_setMouseWheel(PyObject* self, PyObject* args)
 	return Py_None;
 }
 
+static PyObject * Input_setMouseHorizontalWheel(PyObject* self, PyObject* args)
+{
+	int x,y;
+	float wheel;
+
+	if( ! PyArg_ParseTuple(args, "iif", &x, &y, &wheel ) )
+        return NULL;
+
+	MousePositionAsPixel( &x, &y );
+
+	((PyObject_Input*)self)->num = 1;
+
+	INPUT & input = ((PyObject_Input*)self)->input[0];
+	input.type = INPUT_MOUSE;
+	input.mi.dx = x;
+	input.mi.dy = y;
+	input.mi.mouseData = (DWORD)(wheel * WHEEL_DELTA);
+	input.mi.dwFlags = MOUSEEVENTF_HWHEEL | MOUSEEVENTF_ABSOLUTE;
+	input.mi.dwExtraInfo = 0;
+	input.mi.time = 0;
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
 static PyObject * Input_send( PyObject * self, PyObject * args )
 {
 	PyObject * py_input_list;
@@ -2329,6 +2358,7 @@ static PyMethodDef Input_methods[] = {
     { "setMouseMiddleUp", Input_setMouseMiddleUp, METH_VARARGS, "" },
     { "setMouseMiddleClick", Input_setMouseMiddleClick, METH_VARARGS, "" },
     { "setMouseWheel", Input_setMouseWheel, METH_VARARGS, "" },
+	{ "setMouseHorizontalWheel", Input_setMouseHorizontalWheel, METH_VARARGS, "" },
     { "send", Input_send, METH_STATIC|METH_VARARGS, "" },
 	{ "getCursorPos", Input_getCursorPos, METH_STATIC|METH_VARARGS, "" },
 	{ "getKeyboardState", Input_getKeyboardState, METH_STATIC|METH_VARARGS, "" },
@@ -2438,6 +2468,7 @@ static int Hook_init( PyObject * self, PyObject * args, PyObject * kwds)
 	((PyObject_Hook*)self)->mousedblclk = 0;
 	((PyObject_Hook*)self)->mousemove = 0;
 	((PyObject_Hook*)self)->mousewheel = 0;
+	((PyObject_Hook*)self)->mousehorizontalwheel = 0;
 	((PyObject_Hook*)self)->clipboard = 0;
 
 	// ウィンドウクラスの登録
@@ -2501,6 +2532,7 @@ static void Hook_dealloc( PyObject * self )
 	Py_XDECREF(((PyObject_Hook*)self)->mousedblclk);
 	Py_XDECREF(((PyObject_Hook*)self)->mousemove);
 	Py_XDECREF(((PyObject_Hook*)self)->mousewheel);
+	Py_XDECREF(((PyObject_Hook*)self)->mousehorizontalwheel);
 	Py_XDECREF(((PyObject_Hook*)self)->clipboard);
 
 	self->ob_type->tp_free((PyObject*)self);
@@ -2605,6 +2637,19 @@ static PyObject * Hook_getattr( PyObject_Hook * self, PyObject * pyattrname )
 		{
 			Py_INCREF(self->mousewheel);
 			return self->mousewheel;
+		}
+		else
+		{
+			Py_INCREF(Py_None);
+			return Py_None;
+		}
+	}
+	else if( attrname[0]=='m' && wcscmp(attrname,L"mousehorizontalwheel")==0 )
+	{
+		if(self->mousehorizontalwheel)
+		{
+			Py_INCREF(self->mousehorizontalwheel);
+			return self->mousehorizontalwheel;
 		}
 		else
 		{
@@ -2747,6 +2792,22 @@ static int Hook_setattr( PyObject_Hook * self, PyObject * pyattrname, PyObject *
 			self->mousewheel = NULL;
 		}
 	}
+	else if( attrname[0]=='m' && wcscmp(attrname,L"mousehorizontalwheel")==0 )
+	{
+		if(pyvalue!=Py_None)
+		{
+			Py_INCREF(pyvalue);
+			Py_XDECREF(self->mousehorizontalwheel);
+			self->mousehorizontalwheel = pyvalue;
+
+			HookStart_Mouse();
+		}
+		else
+		{
+			Py_XDECREF(self->mousehorizontalwheel);
+			self->mousehorizontalwheel = NULL;
+		}
+	}
 	else if( attrname[0]=='c' && wcscmp(attrname,L"clipboard")==0 )
 	{
 		if(pyvalue!=Py_None)
@@ -2796,7 +2857,7 @@ static PyObject * Hook_reset( PyObject_Hook * self, PyObject* args )
 			HookStart_Key();
 		}
 
-		if( self->mousedown || self->mouseup || self->mousedblclk || self->mousemove || self->mousewheel )
+		if( self->mousedown || self->mouseup || self->mousedblclk || self->mousemove || self->mousewheel || self->mousehorizontalwheel )
 		{
 			HookStart_Mouse();
 		}

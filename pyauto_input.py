@@ -129,5 +129,13 @@ class MouseWheel( pyautocore.Input ):
         pyautocore.Input.__init__(self)
         self.setMouseWheel( x, y, wheel )
 
+## 仮想的なマウスの水平のホイール回転を生成するクラス
+class MouseHorizontalWheel( pyautocore.Input ):
+
+    def __init__( self, x, y, wheel ):
+
+        pyautocore.Input.__init__(self)
+        self.setMouseHorizontalWheel( x, y, wheel )
+
 ## @} pyauto
 

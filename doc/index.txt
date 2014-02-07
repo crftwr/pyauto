@@ -59,6 +59,10 @@ APIリファレンス
 更新履歴
 =========
 
+	**?.??**
+	
+		- MouseHorizontalWheel クラスを追加
+
     **1.28**
 
         - Window.maximize(), Window.minimize(), Window.restore() に、SetWindowPlacement() ではなく、WM_SYSCOMMAND を使うようにした。
