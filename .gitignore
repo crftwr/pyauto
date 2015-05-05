@@ -1,1 +1,15 @@
 __pycache__
+doc/html/
+dist/
+pyautocore/Debug/
+pyautocore/Release/
+Debug/
+Release/
+make.vcxproj.user
+pyauto.sdf
+pyauto.suo
+pyauto.v12.suo
+pyautocore.exp
+pyautocore.lib
+pyautocore.pdb
+pyautocore/pyautocore.vcxproj.user
