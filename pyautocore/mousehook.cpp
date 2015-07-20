@@ -132,8 +132,6 @@ LRESULT CALLBACK MouseHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 void HookStart_Mouse()
 {
-	PythonUtil_DebugPrintf("HookStart_Mouse\n");
-
 	if(!mouse_hook)
 	{
 		PythonUtil_DebugPrintf("SetWindowsHookEx\n" );
@@ -148,8 +146,6 @@ void HookStart_Mouse()
 
 void HookEnd_Mouse()
 {
-	PythonUtil_Printf("HookEnd_Mouse\n");
-
 	if(mouse_hook)
 	{
 		if( ! UnhookWindowsHookEx(mouse_hook) )

@@ -121,8 +121,6 @@ LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 void HookStart_Key()
 {
-	PythonUtil_DebugPrintf("HookStart_Key\n");
-
 	if(!key_hook)
 	{
 		PythonUtil_DebugPrintf("SetWindowsHookEx\n" );
@@ -137,8 +135,6 @@ void HookStart_Key()
 
 void HookEnd_Key()
 {
-	PythonUtil_DebugPrintf("HookEnd_Key\n");
-
 	if(key_hook)
 	{
 		if( ! UnhookWindowsHookEx(key_hook) )
