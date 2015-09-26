@@ -3096,7 +3096,7 @@ extern "C" PyMODINIT_FUNC PyInit_pyautocore()
 
 	if( PyErr_Occurred() )
 	{
-		Py_FatalError( "can't initialize module "MODULE_NAME );
+		Py_FatalError( "can't initialize module " MODULE_NAME );
 	}
 
 	return m;
