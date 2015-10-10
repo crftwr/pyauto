@@ -24,7 +24,7 @@ pil_image.save( "capture.png" )
 
 if 0:
     pil_icon = Image.open( "vcicon.png" ).convert("RGB")
-    icon = pyauto.Image.fromString( pil_icon.mode, pil_icon.size, pil_icon.tostring() )
+    icon = pyauto.Image.fromString( pil_icon.mode, pil_icon.size, pil_icon.tobytes() )
 
     icon_pos = image.find( icon )
     print( "icon_pos:", icon_pos )
