@@ -1268,6 +1268,14 @@ static PyObject * Window_getImage( PyObject * self, PyObject * args )
 	return (PyObject*)pyimg;
 }
 
+
+#define IMC_GETCONVERSIONMODE 1
+#define IMC_SETCONVERSIONMODE 2
+#define IMC_GETSENTENCEMODE 3
+#define IMC_SETSENTENCEMODE 4
+#define IMC_GETOPENSTATUS 5
+#define IMC_SETOPENSTATUS 6
+
 static PyObject * Window_getImeStatus( PyObject * self, PyObject * args )
 {
 	if( ! PyArg_ParseTuple(args,"" ) )
@@ -1280,7 +1288,6 @@ static PyObject * Window_getImeStatus( PyObject * self, PyObject * args )
 		return NULL;
 	}
 
-	#define IMC_GETOPENSTATUS 5
     HWND hwnd_ime = ImmGetDefaultIMEWnd(hwnd);
 	if( SendMessage( hwnd_ime, WM_IME_CONTROL, IMC_GETOPENSTATUS, 0 )!=0 )
 	{
@@ -1308,13 +1315,47 @@ static PyObject * Window_setImeStatus( PyObject * self, PyObject * args )
 		return NULL;
 	}
 
-	#define IMC_SETOPENSTATUS 6
     HWND hwnd_ime = ImmGetDefaultIMEWnd(hwnd);
 	SendMessage( hwnd_ime, WM_IME_CONTROL, IMC_SETOPENSTATUS, open ? 1 : 0 );
 
 	Py_INCREF(Py_None);
 	return Py_None;
 }
+
+#if 0
+static PyObject * Window_isImeConverting(PyObject * self, PyObject * args)
+{
+	if (!PyArg_ParseTuple(args, ""))
+		return NULL;
+
+	HWND hwnd = ((PyObject_Window*)self)->hwnd;
+	if (!hwnd)
+	{
+		PyErr_SetString(PyExc_ValueError, "invalid window object.");
+		return NULL;
+	}
+
+	/* TODO : IMEの未確定文字列があるかどうかを返す
+
+	他プロセスがIME入力中であるかどうかを調査する方法として、
+	WM_IME_STARTCOMPOSITION と WM_IME_ENDCOMPOSITION イベントをフックで捉える方法があるが、
+	他プロセスにHook用DLLをインストールする必要があり、32bit/64bit 両サポートが煩雑になるのでやりたくない。
+
+	Hook DLL を必要としないやり方で、IME変換中であるかを調べる方法がないか。
+	*/
+
+	if(ime_converting)
+	{
+		Py_INCREF(Py_True);
+		return Py_True;
+	}
+	else
+	{
+		Py_INCREF(Py_False);
+		return Py_False;
+	}
+}
+#endif
 
 static PyMethodDef Window_methods[] = {
     { "getText", Window_getText, METH_VARARGS, "" },
