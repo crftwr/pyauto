@@ -24,8 +24,6 @@ using namespace std;
 
 namespace pyauto
 {
-	static HANDLE hook_instance_mutex;
-
 	Globals g;
 };
 
@@ -2493,15 +2491,6 @@ static int Hook_init( PyObject * self, PyObject * args, PyObject * kwds)
 	if( ! PyArg_ParseTuple( args, "" ) )
         return -1;
 
-	// Hookオブジェクトはシステム上に1つだけ
-	hook_instance_mutex = CreateMutex(NULL, TRUE, _T(PYAUTO_WINDOW_NAME) );
-	if( GetLastError() == ERROR_ALREADY_EXISTS )
-	{
-		PyErr_SetString( PyExc_ValueError, "multiple pyauto.Hook objects cannot exist on a system." );
-		hook_instance_mutex = NULL;
-		return -1;
-	}
-
 	((PyObject_Hook*)self)->keydown = 0;
 	((PyObject_Hook*)self)->keyup = 0;
 	((PyObject_Hook*)self)->mousedown = 0;
@@ -2551,12 +2540,6 @@ static void _Hook_destroy()
 	
 		DestroyWindow(g.pyauto_window);
 		g.pyauto_window = NULL;
-
-		if(hook_instance_mutex)
-		{
-			CloseHandle(hook_instance_mutex);
-			hook_instance_mutex=NULL;
-		}
 
 		g.pyhook = NULL;
 	}
