@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C++ Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pyautocore", "pyautocore\pyautocore.vcxproj", "{2D8BB990-8905-4DCF-8811-3F97A27BED1A}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "make", "make.vcxproj", "{679CF3F9-CEBF-4BBB-98D3-BDD497858C9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		{2D8BB990-8905-4DCF-8811-3F97A27BED1A}.Debug|Win32.Build.0 = Debug|Win32
 		{2D8BB990-8905-4DCF-8811-3F97A27BED1A}.Release|Win32.ActiveCfg = Release|Win32
 		{2D8BB990-8905-4DCF-8811-3F97A27BED1A}.Release|Win32.Build.0 = Release|Win32
-		{679CF3F9-CEBF-4BBB-98D3-BDD497858C9D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{679CF3F9-CEBF-4BBB-98D3-BDD497858C9D}.Debug|Win32.Build.0 = Debug|Win32
-		{679CF3F9-CEBF-4BBB-98D3-BDD497858C9D}.Release|Win32.ActiveCfg = Release|Win32
-		{679CF3F9-CEBF-4BBB-98D3-BDD497858C9D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
