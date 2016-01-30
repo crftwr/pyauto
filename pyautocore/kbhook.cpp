@@ -32,9 +32,12 @@ LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 		PythonUtil_Printf("Time stamp inversion happened.\n");
 	}
 
-	// プログラムによって挿入されたキーイベントはスクリプトで処理しない
-	// vkCode==0 のイベントは特別扱いし、必ず Python で処理する
-	if( pkbdllhook->vkCode && pkbdllhook->flags & LLKHF_INJECTED )
+	// Pyauto の SendInput によって挿入されたキーイベントはスクリプトで処理しない。
+	// 他のプログラムのキーフックで挿入されたキーイベントを無視しないために、タイムスタンプもチェックする。
+	// vkCode==0 のイベントは特別扱いし、必ず Python で処理する。
+	if( pkbdllhook->flags & LLKHF_INJECTED 
+     && g.last_key_time >= pkbdllhook->time
+	 && pkbdllhook->vkCode )
 	{
 		LRESULT result = CallNextHookEx(key_hook, nCode, wParam, lParam);
 		return result;
