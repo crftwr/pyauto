@@ -71,14 +71,15 @@ LRESULT CALLBACK MouseHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 	MSLLHOOKSTRUCT * pmousellhook = (MSLLHOOKSTRUCT*)lParam;
 
-	// ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ª‹t“]‚µ‚Ä‚µ‚Ü‚Á‚½ê‡‚ÍA—\Šú‚µ‚È‚¢‚±‚Æ‚ª‹N‚«‚Ä‚¢‚é
+	// ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ãŒé€†è»¢ã—ã¦ã—ã¾ã£ãŸå ´åˆã¯ã€äºˆæœŸã—ãªã„ã“ã¨ãŒèµ·ãã¦ã„ã‚‹
 	if( g.last_key_time > pmousellhook->time )
 	{
 		PythonUtil_Printf("Time stamp inversion happened.\n");
 	}
 
-	// ƒvƒƒOƒ‰ƒ€‚É‚æ‚Á‚Ä‘}“ü‚³‚ê‚½ƒL[ƒCƒxƒ“ƒg‚ÍƒXƒNƒŠƒvƒg‚Åˆ—‚µ‚È‚¢
-	if( pmousellhook->flags & LLMHF_INJECTED )
+	// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã«ã‚ˆã£ã¦æŒ¿å…¥ã•ã‚ŒãŸã‚­ãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆã¯ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§å‡¦ç†ã—ãªã„
+	if( pmousellhook->flags & LLMHF_INJECTED
+		&& pmousellhook->dwExtraInfo == (ULONG_PTR)g.module_handle )
 	{
 		LRESULT result = CallNextHookEx(mouse_hook, nCode, wParam, lParam);
 		return result;

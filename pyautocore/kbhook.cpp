@@ -9,10 +9,10 @@ static HHOOK key_hook = NULL;
 
 using namespace pyauto;
 
-// WH_KEYBOARD_LL ‚Æ SendInput ‚ÌŠÖŒW:
+// WH_KEYBOARD_LL ã¨ SendInput ã®é–¢ä¿‚:
 //
-//   KeyHookProc() ‚Ì‚È‚©‚Å SendInput() ‚ðŒÄ‚Ño‚·‚ÆA
-//   KeyHookProc() ‚ªƒlƒXƒg‚µ‚ÄŒÄ‚Ño‚³‚ê‚éB
+//   KeyHookProc() ã®ãªã‹ã§ SendInput() ã‚’å‘¼ã³å‡ºã™ã¨ã€
+//   KeyHookProc() ãŒãƒã‚¹ãƒˆã—ã¦å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
 //
 LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
@@ -26,18 +26,17 @@ LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 	KBDLLHOOKSTRUCT * pkbdllhook = (KBDLLHOOKSTRUCT*)lParam;
 
-	// ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ª‹t“]‚µ‚Ä‚µ‚Ü‚Á‚½ê‡‚ÍA—\Šú‚µ‚È‚¢‚±‚Æ‚ª‹N‚«‚Ä‚¢‚é
+	// ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ãŒé€†è»¢ã—ã¦ã—ã¾ã£ãŸå ´åˆã¯ã€äºˆæœŸã—ãªã„ã“ã¨ãŒèµ·ãã¦ã„ã‚‹
 	if( g.last_key_time > pkbdllhook->time )
 	{
 		PythonUtil_Printf("Time stamp inversion happened.\n");
 	}
 
-	// Pyauto ‚Ì SendInput ‚É‚æ‚Á‚Ä‘}“ü‚³‚ê‚½ƒL[ƒCƒxƒ“ƒg‚ÍƒXƒNƒŠƒvƒg‚Åˆ—‚µ‚È‚¢B
-	// ‘¼‚ÌƒvƒƒOƒ‰ƒ€‚ÌƒL[ƒtƒbƒN‚Å‘}“ü‚³‚ê‚½ƒL[ƒCƒxƒ“ƒg‚ð–³Ž‹‚µ‚È‚¢‚½‚ß‚ÉAƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚àƒ`ƒFƒbƒN‚·‚éB
-	// vkCode==0 ‚ÌƒCƒxƒ“ƒg‚Í“Á•Êˆµ‚¢‚µA•K‚¸ Python ‚Åˆ—‚·‚éB
-	if( pkbdllhook->flags & LLKHF_INJECTED 
-     && g.last_key_time >= pkbdllhook->time
-	 && pkbdllhook->vkCode )
+	// è‡ªåˆ†ã® SendInput ã«ã‚ˆã£ã¦æŒ¿å…¥ã•ã‚ŒãŸã‚­ãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆã¯ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§å‡¦ç†ã—ãªã„ã€‚
+	// vkCode==0 ã®ã‚¤ãƒ™ãƒ³ãƒˆã¯ç‰¹åˆ¥æ‰±ã„ã—ã€å¿…ãš Python ã§å‡¦ç†ã™ã‚‹ã€‚
+	if( pkbdllhook->flags & LLKHF_INJECTED
+		&& pkbdllhook->dwExtraInfo == (ULONG_PTR)g.module_handle
+		&& pkbdllhook->vkCode )
 	{
 		LRESULT result = CallNextHookEx(key_hook, nCode, wParam, lParam);
 		return result;

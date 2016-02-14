@@ -200,7 +200,7 @@ static PyObject * Window_getClassName(PyObject* self, PyObject* args)
 
 static bool _Window_getProcessInfoFromHWND( HWND hwnd, TCHAR * process_name, TCHAR * process_path )
 {
-	// ƒq[ƒvî•ñ‚ğƒXƒiƒbƒv‚µ‚È‚¢”é–§‚Ìƒrƒbƒg
+	// ãƒ’ãƒ¼ãƒ—æƒ…å ±ã‚’ã‚¹ãƒŠãƒƒãƒ—ã—ãªã„ç§˜å¯†ã®ãƒ“ãƒƒãƒˆ
 	#define TH32CS_SNAPNOHEAPS (0x40000000)
 
 	DWORD pid = 0;
@@ -303,7 +303,7 @@ static PyObject * Window_getProcessName(PyObject* self, PyObject* args)
 	bool ret = _Window_getProcessInfoFromHWND( hwnd, buf, NULL );
 	if(!ret)
 	{
-		//PyErr_SetFromWindowsErr(0); // _Window_getProcessInfoFromHWND ‚Ì‚È‚©‚ÅƒGƒ‰[‚ğƒZƒbƒg‚·‚é
+		//PyErr_SetFromWindowsErr(0); // _Window_getProcessInfoFromHWND ã®ãªã‹ã§ã‚¨ãƒ©ãƒ¼ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		
 		return NULL;
 	}
@@ -334,7 +334,7 @@ static PyObject * Window_getProcessPath(PyObject* self, PyObject* args)
 	bool ret = _Window_getProcessInfoFromHWND( hwnd, NULL, buf );
 	if(!ret)
 	{
-		//PyErr_SetFromWindowsErr(0); // _Window_getProcessInfoFromHWND ‚Ì‚È‚©‚ÅƒGƒ‰[‚ğƒZƒbƒg‚·‚é
+		//PyErr_SetFromWindowsErr(0); // _Window_getProcessInfoFromHWND ã®ãªã‹ã§ã‚¨ãƒ©ãƒ¼ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		
 		return NULL;
 	}
@@ -865,7 +865,7 @@ static PyObject * Window_setForeground( PyObject * self, PyObject * args )
 		return NULL;
 	}
 	
-	// ‹­§“I‚ÈƒtƒHƒAƒOƒ‰ƒEƒ“ƒh‰»
+	// å¼·åˆ¶çš„ãªãƒ•ã‚©ã‚¢ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰åŒ–
 	{
 		DWORD error = 0;
 		
@@ -876,15 +876,15 @@ static PyObject * Window_setForeground( PyObject * self, PyObject * args )
 		bool fg_locktime_got = false;
 		bool fg_locktime_set = false;
 
-		// ƒtƒHƒAƒOƒ‰ƒEƒ“ƒhƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½ƒXƒŒƒbƒh‚ÌID‚ğæ“¾
+		// ãƒ•ã‚©ã‚¢ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã®IDã‚’å–å¾—
 		nForegroundID = GetWindowThreadProcessId(GetForegroundWindow(), NULL);
 
-		// –Ú“I‚ÌƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½ƒXƒŒƒbƒh‚ÌID‚ğæ“¾
+		// ç›®çš„ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã®IDã‚’å–å¾—
 		nTargetID = GetWindowThreadProcessId(hwnd, NULL );
 
 		if(force && nForegroundID!=nTargetID)
 		{
-			// ƒXƒŒƒbƒh‚ÌƒCƒ“ƒvƒbƒgó‘Ô‚ğŒ‹‚Ñ•t‚¯‚é
+			// ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚¤ãƒ³ãƒ—ãƒƒãƒˆçŠ¶æ…‹ã‚’çµã³ä»˜ã‘ã‚‹
 			if( AttachThreadInput( nTargetID, nForegroundID, TRUE ) )
 			{
 				thread_attached = true;
@@ -894,7 +894,7 @@ static PyObject * Window_setForeground( PyObject * self, PyObject * args )
 				printf("AttachThreadInput failed %d\n",GetLastError());
 			}
 
-			// Œ»İ‚Ìİ’è‚ğ sp_time ‚É•Û‘¶
+			// ç¾åœ¨ã®è¨­å®šã‚’ sp_time ã«ä¿å­˜
 			if( ! SystemParametersInfo( SPI_GETFOREGROUNDLOCKTIMEOUT,0,&sp_time,0) )
 			{
 				printf("SystemParametersInfo(SPI_GETFOREGROUNDLOCKTIMEOUT) failed %d\n",GetLastError());
@@ -902,7 +902,7 @@ static PyObject * Window_setForeground( PyObject * self, PyObject * args )
 				fg_locktime_got = true;
 			}
 			
-			// ƒEƒBƒ“ƒhƒE‚ÌØ‚è‘Ö‚¦ŠÔ‚ğ 0ms ‚É‚·‚é
+			// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®åˆ‡ã‚Šæ›¿ãˆæ™‚é–“ã‚’ 0ms ã«ã™ã‚‹
 			if(fg_locktime_got)
 			{
 				if( ! SystemParametersInfo( SPI_SETFOREGROUNDLOCKTIMEOUT,0,(LPVOID)0,0) )
@@ -914,7 +914,7 @@ static PyObject * Window_setForeground( PyObject * self, PyObject * args )
 			}
 		}
 
-		// ƒEƒBƒ“ƒhƒE‚ğƒtƒHƒAƒOƒ‰ƒEƒ“ƒh‚É‚Á‚Ä‚­‚é
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ãƒ•ã‚©ã‚¢ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰ã«æŒã£ã¦ãã‚‹
 		if( ! SetForegroundWindow(hwnd) )
 		{
 			printf("SetForegroundWindow failed %d\n",GetLastError());
@@ -924,7 +924,7 @@ static PyObject * Window_setForeground( PyObject * self, PyObject * args )
 
 		if(force && nForegroundID!=nTargetID)
 		{
-			// İ’è‚ğŒ³‚É–ß‚·
+			// è¨­å®šã‚’å…ƒã«æˆ»ã™
 			if(fg_locktime_got && fg_locktime_set)
 			{
 				if( ! SystemParametersInfo( SPI_SETFOREGROUNDLOCKTIMEOUT,0,(void*)sp_time,0) )
@@ -933,7 +933,7 @@ static PyObject * Window_setForeground( PyObject * self, PyObject * args )
 				}
 			}
 
-			// ƒXƒŒƒbƒh‚ÌƒCƒ“ƒvƒbƒgó‘Ô‚ğØ‚è—£‚·
+			// ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚¤ãƒ³ãƒ—ãƒƒãƒˆçŠ¶æ…‹ã‚’åˆ‡ã‚Šé›¢ã™
 			if(thread_attached)
 			{
 				if( ! AttachThreadInput(nTargetID, nForegroundID, FALSE ) )
@@ -943,7 +943,7 @@ static PyObject * Window_setForeground( PyObject * self, PyObject * args )
 			}
 		}
 		
-		// ƒGƒ‰[‚ª‹N‚«‚Ä‚½‚ç—áŠO‚ğ”­s‚·‚é
+		// ã‚¨ãƒ©ãƒ¼ãŒèµ·ãã¦ãŸã‚‰ä¾‹å¤–ã‚’ç™ºè¡Œã™ã‚‹
 		if(error)
 		{
 			PyErr_SetFromWindowsErr(error);
@@ -1061,7 +1061,7 @@ static BOOL CALLBACK _EnumWindowsCallback(HWND hwnd, LPARAM lParam)
 	else
 	{
 		PyErr_Print();
-		return FALSE; //—ñ‹“‚ğ’†’f
+		return FALSE; //åˆ—æŒ™ã‚’ä¸­æ–­
 	}
 }
 
@@ -1333,13 +1333,13 @@ static PyObject * Window_isImeConverting(PyObject * self, PyObject * args)
 		return NULL;
 	}
 
-	/* TODO : IME‚Ì–¢Šm’è•¶š—ñ‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·
+	/* TODO : IMEã®æœªç¢ºå®šæ–‡å­—åˆ—ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™
 
-	‘¼ƒvƒƒZƒX‚ªIME“ü—Í’†‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ’²¸‚·‚é•û–@‚Æ‚µ‚ÄA
-	WM_IME_STARTCOMPOSITION ‚Æ WM_IME_ENDCOMPOSITION ƒCƒxƒ“ƒg‚ğƒtƒbƒN‚Å‘¨‚¦‚é•û–@‚ª‚ ‚é‚ªA
-	‘¼ƒvƒƒZƒX‚ÉHook—pDLL‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚é•K—v‚ª‚ ‚èA32bit/64bit —¼ƒTƒ|[ƒg‚ª”ÏG‚É‚È‚é‚Ì‚Å‚â‚è‚½‚­‚È‚¢B
+	ä»–ãƒ—ãƒ­ã‚»ã‚¹ãŒIMEå…¥åŠ›ä¸­ã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’èª¿æŸ»ã™ã‚‹æ–¹æ³•ã¨ã—ã¦ã€
+	WM_IME_STARTCOMPOSITION ã¨ WM_IME_ENDCOMPOSITION ã‚¤ãƒ™ãƒ³ãƒˆã‚’ãƒ•ãƒƒã‚¯ã§æ‰ãˆã‚‹æ–¹æ³•ãŒã‚ã‚‹ãŒã€
+	ä»–ãƒ—ãƒ­ã‚»ã‚¹ã«Hookç”¨DLLã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã€32bit/64bit ä¸¡ã‚µãƒãƒ¼ãƒˆãŒç…©é›‘ã«ãªã‚‹ã®ã§ã‚„ã‚ŠãŸããªã„ã€‚
 
-	Hook DLL ‚ğ•K—v‚Æ‚µ‚È‚¢‚â‚è•û‚ÅAIME•ÏŠ·’†‚Å‚ ‚é‚©‚ğ’²‚×‚é•û–@‚ª‚È‚¢‚©B
+	Hook DLL ã‚’å¿…è¦ã¨ã—ãªã„ã‚„ã‚Šæ–¹ã§ã€IMEå¤‰æ›ä¸­ã§ã‚ã‚‹ã‹ã‚’èª¿ã¹ã‚‹æ–¹æ³•ãŒãªã„ã‹ã€‚
 	*/
 
 	if(ime_converting)
@@ -2275,7 +2275,8 @@ static PyObject * Input_send( PyObject * self, PyObject * args )
 			return NULL;
 		}
 
-		// ‹[—“ü—Í‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğAÅŒã‚Éó‚¯‚½ƒL[‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚É‚·‚é
+		// æ“¬ä¼¼å…¥åŠ›ã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã‚’ã€æœ€å¾Œã«å—ã‘ãŸã‚­ãƒ¼ã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã«ã™ã‚‹
+		// dwExtraInfo ã«ã¯ã€è‡ªåˆ†ã§ Inject ã—ãŸã‚¤ãƒ™ãƒ³ãƒˆã‚’åˆ¤åˆ¥ã™ã‚‹ãŸã‚ã®ç›®å°ã‚’å…¥ã‚Œã‚‹
         for( int k=0 ; k<((PyObject_Input*)pyitem)->num ; k++ )
 		{
 			input[num_input] = ((PyObject_Input*)pyitem)->input[k];
@@ -2284,10 +2285,12 @@ static PyObject * Input_send( PyObject * self, PyObject * args )
 			{
 			case INPUT_MOUSE:
 				input[num_input].mi.time = g.last_key_time;
+				input[num_input].mi.dwExtraInfo = (ULONG_PTR)g.module_handle;
 				break;
 
 			case INPUT_KEYBOARD:
 				input[num_input].ki.time = g.last_key_time;
+				input[num_input].ki.dwExtraInfo = (ULONG_PTR)g.module_handle;
 				break;
 			}
 
@@ -2451,7 +2454,7 @@ PyTypeObject pyauto::PyType_Input = {
 
 // ------------ PyObject_Hook -----------------------------------------
 
-// ƒtƒbƒN‚Ìƒtƒ‰ƒO‚ğA‹[—“ü—Í‚Ìƒtƒ‰ƒO‚É•ÏŠ·‚·‚é
+// ãƒ•ãƒƒã‚¯ã®ãƒ•ãƒ©ã‚°ã‚’ã€æ“¬ä¼¼å…¥åŠ›ã®ãƒ•ãƒ©ã‚°ã«å¤‰æ›ã™ã‚‹
 static int flags_conv( DWORD flags )
 {
 	int ret = 0;
@@ -2501,7 +2504,7 @@ static int Hook_init( PyObject * self, PyObject * args, PyObject * kwds)
 	((PyObject_Hook*)self)->mousehorizontalwheel = 0;
 	((PyObject_Hook*)self)->clipboard = 0;
 
-	// ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì“o˜^
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®ç™»éŒ²
 	{
 		WNDCLASSEX wcex;
 
@@ -2522,10 +2525,10 @@ static int Hook_init( PyObject * self, PyObject * args, PyObject * kwds)
 		RegisterClassEx(&wcex);
 	}
 	
-	// ƒtƒbƒN‚ÌƒCƒxƒ“ƒg‚ğó‚¯æ‚é‚½‚ß‚ÌƒEƒBƒ“ƒhƒE‚ğì¬
+	// ãƒ•ãƒƒã‚¯ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’å—ã‘å–ã‚‹ãŸã‚ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆ
 	g.pyauto_window = CreateWindow( _T(PYAUTO_WINDOW_NAME), _T(PYAUTO_WINDOW_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, g.module_handle, NULL );
 	
-	// HookƒIƒuƒWƒFƒNƒg‚ğ‹L˜^‚·‚é
+	// Hookã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨˜éŒ²ã™ã‚‹
 	g.pyhook = (PyObject_Hook*)self;
 
 	return 0;
@@ -2863,7 +2866,7 @@ static PyObject * Hook_reset( PyObject_Hook * self, PyObject* args )
 	if( ! PyArg_ParseTuple(args, "" ) )
         return NULL;
 
-	// ƒtƒbƒN‰ğœ
+	// ãƒ•ãƒƒã‚¯è§£é™¤
 	{
 		PythonUtil_DebugPrintf("unset hook\n");
 
@@ -2872,7 +2875,7 @@ static PyObject * Hook_reset( PyObject_Hook * self, PyObject* args )
 		HookEnd_Clipboard();
 	}
 
-	// ƒtƒbƒNÄƒXƒ^[ƒg
+	// ãƒ•ãƒƒã‚¯å†ã‚¹ã‚¿ãƒ¼ãƒˆ
 	{
 		PythonUtil_DebugPrintf("set hook\n");
 
