@@ -1,0 +1,12 @@
+platform:
+#  - x64
+  - x86
+
+install:
+  - MSBuild.exe pyauto.sln /target:Build /property:Configuration=Release,Platform=Win32
+  - cinst -y doxygen.install
+  - python makefile.py
+
+build: off
+test: off
+deploy: off
