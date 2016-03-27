@@ -45,8 +45,8 @@ namespace pyauto
 		PyObject * mouseup;
 		PyObject * mousedblclk;
 		PyObject * mousemove;			// FIXME : not implemented
-		PyObject * mousewheel;			// FIXME : not implemented
-		PyObject * mousehorizontalwheel;// FIXME : not implemented
+		PyObject * mousewheel;
+		PyObject * mousehorizontalwheel;
 
 		PyObject * clipboard;
 	};

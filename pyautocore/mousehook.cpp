@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 
 #include <windows.h>
 
@@ -47,6 +47,36 @@ static int OnMouseButton( WPARAM wParam, MSLLHOOKSTRUCT * pmousellhook, PyObject
 		else
 		{
 			PyArg_Parse(pyresult,"i", &result );
+		}
+		Py_DECREF(pyresult);
+	}
+	else
+	{
+		PyErr_Print();
+		result = 0;
+	}
+
+	return result;
+}
+
+static int OnMouseWheel(WPARAM wParam, MSLLHOOKSTRUCT * pmousellhook, PyObject * pyfunc)
+{
+	int result;
+
+	g.last_key_time = pmousellhook->time;
+
+	PyObject * pyarglist = Py_BuildValue("(iif)", pmousellhook->pt.x, pmousellhook->pt.y, ((float)(short)HIWORD(pmousellhook->mouseData))/WHEEL_DELTA);
+	PyObject * pyresult = PyEval_CallObject(pyfunc, pyarglist);
+	Py_DECREF(pyarglist);
+	if (pyresult)
+	{
+		if (pyresult == Py_None)
+		{
+			result = 0;
+		}
+		else
+		{
+			PyArg_Parse(pyresult, "i", &result);
 		}
 		Py_DECREF(pyresult);
 	}
@@ -125,6 +155,29 @@ LRESULT CALLBACK MouseHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
+
+	case WM_MOUSEWHEEL:
+		if (g.pyhook->mousewheel)
+		{
+			int result = OnMouseWheel(wParam, pmousellhook, g.pyhook->mousewheel);
+			if (result)
+			{
+				return result;
+			}
+		}
+		break;
+
+	case WM_MOUSEHWHEEL:
+		if (g.pyhook->mousehorizontalwheel)
+		{
+			int result = OnMouseWheel(wParam, pmousellhook, g.pyhook->mousehorizontalwheel);
+			if (result)
+			{
+				return result;
+			}
+		}
+		break;
+
 	}
 
 	LRESULT result = CallNextHookEx(mouse_hook, nCode, wParam, lParam);
