@@ -2478,8 +2478,7 @@ static LRESULT CALLBACK Hook_wndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		}
 		break;
 
-	case WM_DRAWCLIPBOARD:
-	case WM_CHANGECBCHAIN:
+	case WM_CLIPBOARDUPDATE:
 		return Hook_Clipboard_wndProc(hWnd, message, wParam, lParam );
 		break;
 
@@ -2839,18 +2838,28 @@ static int Hook_setattr( PyObject_Hook * self, PyObject * pyattrname, PyObject *
 	{
 		if(pyvalue!=Py_None)
 		{
+			bool need_hook_start = (self->clipboard == NULL);
+
 			Py_INCREF(pyvalue);
 			Py_XDECREF(self->clipboard);
 			self->clipboard = pyvalue;
 
-			HookStart_Clipboard();
+			if(need_hook_start)
+			{
+				HookStart_Clipboard();
+			}
 		}
 		else
 		{
+			bool need_hook_end = (self->clipboard != NULL);
+
 			Py_XDECREF(self->clipboard);
 			self->clipboard = NULL;
 
-			HookEnd_Clipboard();
+			if(need_hook_end)
+			{
+				HookEnd_Clipboard();
+			}
 		}
 	}
 	else

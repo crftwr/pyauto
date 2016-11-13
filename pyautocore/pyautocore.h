@@ -57,7 +57,6 @@ namespace pyauto
 		PyObject * Error;
 		PyObject_Hook * pyhook;
 		HWND pyauto_window;
-		HWND clipboard_chain_next_window;
 		DWORD last_key_time;
 		bool debug;
 	};

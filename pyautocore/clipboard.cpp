@@ -11,9 +11,10 @@ LRESULT Hook_Clipboard_wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 {
 	switch(message)
 	{
-	case WM_DRAWCLIPBOARD:
-		//PythonUtil_DebugPrintf("WM_DRAWCLIPBOARD\n");
+	case WM_CLIPBOARDUPDATE:
 		{
+			PythonUtil_DebugPrintf("WM_CLIPBOARDUPDATE\n");
+		
 			static bool enter = false;
 			if(!enter)
 			{
@@ -34,30 +35,11 @@ LRESULT Hook_Clipboard_wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 					}
 				}
 
-				if(g.clipboard_chain_next_window)
-				{
-					SendMessage(g.clipboard_chain_next_window, message, wParam, lParam );
-				}
-
 				enter = false;
 			}
 			else
 			{
-				PythonUtil_DebugPrintf("WM_DRAWCLIPBOARD nested!\n");
-			}
-		}
-		break;
-
-	case WM_CHANGECBCHAIN:
-		//PythonUtil_DebugPrintf("WM_CHANGECBCHAIN\n");
-		{
-			if( (HWND)wParam==g.clipboard_chain_next_window )
-			{
-				g.clipboard_chain_next_window = (HWND)lParam;
-			}
-			else if( g.clipboard_chain_next_window!=NULL )
-			{
-				SendMessage( g.clipboard_chain_next_window, message, wParam, lParam );
+				PythonUtil_DebugPrintf("WM_CLIPBOARDUPDATE nested!\n");
 			}
 		}
 		break;
@@ -68,28 +50,20 @@ LRESULT Hook_Clipboard_wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 
 void HookStart_Clipboard()
 {
-	//PythonUtil_DebugPrintf("HookStart_Clipboard\n");
+	//printf("HookStart_Clipboard\n");
 
-	if(g.clipboard_chain_next_window)
+	if(!AddClipboardFormatListener(g.pyauto_window))
 	{
-		return;
-	}
-
-	g.clipboard_chain_next_window = SetClipboardViewer(g.pyauto_window);
-
-	if( !g.clipboard_chain_next_window && GetLastError()!=0 )
-	{
-		PythonUtil_DebugPrintf("SetClipboardViewer() failed : %x\n", GetLastError() );
+		PythonUtil_DebugPrintf("AddClipboardFormatListener() failed : %x\n", GetLastError() );
 	}
 }
 
 void HookEnd_Clipboard()
 {
-	//PythonUtil_DebugPrintf("HookEnd_Clipboard\n");
+	//printf("HookEnd_Clipboard\n");
 
-	if(g.clipboard_chain_next_window)
+	if (!RemoveClipboardFormatListener(g.pyauto_window))
 	{
-		ChangeClipboardChain( g.pyauto_window, g.clipboard_chain_next_window );
-		g.clipboard_chain_next_window = NULL;
+		PythonUtil_DebugPrintf("RemoveClipboardFormatListener() failed : %x\n", GetLastError());
 	}
 }
