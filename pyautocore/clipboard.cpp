@@ -13,7 +13,7 @@ LRESULT Hook_Clipboard_wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 	{
 	case WM_CLIPBOARDUPDATE:
 		{
-			PythonUtil_DebugPrintf("WM_CLIPBOARDUPDATE\n");
+			//PythonUtil_DebugPrintf("WM_CLIPBOARDUPDATE\n");
 		
 			static bool enter = false;
 			if(!enter)
