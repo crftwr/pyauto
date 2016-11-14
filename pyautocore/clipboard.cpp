@@ -7,6 +7,8 @@
 
 using namespace pyauto;
 
+static bool clipboard_hook_installed;
+
 LRESULT Hook_Clipboard_wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message)
@@ -52,9 +54,16 @@ void HookStart_Clipboard()
 {
 	//printf("HookStart_Clipboard\n");
 
-	if(!AddClipboardFormatListener(g.pyauto_window))
+	if (!clipboard_hook_installed)
 	{
-		PythonUtil_DebugPrintf("AddClipboardFormatListener() failed : %x\n", GetLastError() );
+		if (AddClipboardFormatListener(g.pyauto_window))
+		{
+			clipboard_hook_installed = true;
+		}
+		else
+		{
+			PythonUtil_DebugPrintf("AddClipboardFormatListener() failed : %x\n", GetLastError());
+		}
 	}
 }
 
@@ -62,8 +71,15 @@ void HookEnd_Clipboard()
 {
 	//printf("HookEnd_Clipboard\n");
 
-	if (!RemoveClipboardFormatListener(g.pyauto_window))
+	if (clipboard_hook_installed)
 	{
-		PythonUtil_DebugPrintf("RemoveClipboardFormatListener() failed : %x\n", GetLastError());
+		if (RemoveClipboardFormatListener(g.pyauto_window))
+		{
+			clipboard_hook_installed = false;
+		}
+		else
+		{
+			PythonUtil_DebugPrintf("RemoveClipboardFormatListener() failed : %x\n", GetLastError());
+		}
 	}
 }

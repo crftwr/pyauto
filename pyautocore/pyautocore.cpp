@@ -2835,28 +2835,18 @@ static int Hook_setattr( PyObject_Hook * self, PyObject * pyattrname, PyObject *
 	{
 		if(pyvalue!=Py_None)
 		{
-			bool need_hook_start = (self->clipboard == NULL);
-
 			Py_INCREF(pyvalue);
 			Py_XDECREF(self->clipboard);
 			self->clipboard = pyvalue;
 
-			if(need_hook_start)
-			{
-				HookStart_Clipboard();
-			}
+			HookStart_Clipboard();
 		}
 		else
 		{
-			bool need_hook_end = (self->clipboard != NULL);
-
 			Py_XDECREF(self->clipboard);
 			self->clipboard = NULL;
 
-			if(need_hook_end)
-			{
-				HookEnd_Clipboard();
-			}
+			HookEnd_Clipboard();
 		}
 	}
 	else
