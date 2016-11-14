@@ -2473,9 +2473,6 @@ static LRESULT CALLBACK Hook_wndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		break;
 
 	case WM_DESTROY:
-		{
-			PostQuitMessage(0);
-		}
 		break;
 
 	case WM_CLIPBOARDUPDATE:
