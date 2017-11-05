@@ -17,3 +17,6 @@ tags
 pyautocore_d.pyd
 pyauto.VC.opendb
 pyautocore.pyd
+pyautocore.ipdb
+pyautocore.iobj
+.vs/
