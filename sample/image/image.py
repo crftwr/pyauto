@@ -3,7 +3,7 @@ import os
 import sys
 
 sys.path[0:0] = [
-    os.path.join( os.path.split(sys.argv[0])[0], '../../..' ),
+    os.path.abspath( os.path.join( os.path.split(sys.argv[0])[0], '../../..' ) ),
     ]
 
 import pyauto
@@ -19,7 +19,7 @@ print( "save desktop image as capture.png" )
 print( "  size:", image.getSize() )
 print( "  mode:", image.getMode() )
 
-pil_image = Image.fromstring( image.getMode(), image.getSize(), image.getBuffer() )
+pil_image = Image.frombytes( image.getMode(), image.getSize(), image.getBuffer() )
 pil_image.save( "capture.png" )
 
 if 0:

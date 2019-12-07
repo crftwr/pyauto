@@ -8,7 +8,7 @@ def loadConfigFile():
 
     try:
         print( "-- keymap config --" )
-        fd = open( filepath, 'r' )
+        fd = open( filepath, 'r', encoding="utf-8" )
         fileimage = fd.read()
     except IOError:
         print( 'ERROR : no config file.' )

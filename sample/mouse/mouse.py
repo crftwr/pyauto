@@ -4,7 +4,7 @@ import time
 import math
 
 sys.path[0:0] = [
-    os.path.join( os.path.split(sys.argv[0])[0], '../../..' ),
+    os.path.abspath( os.path.join( os.path.split(sys.argv[0])[0], '../../..' ) ),
     ]
 
 import pyauto

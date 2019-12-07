@@ -1,4 +1,4 @@
-# -*- coding: utf_8 -*-
+ï»¿# -*- coding: utf_8 -*-
 
 from pyauto import *
 from keymap import *
@@ -24,26 +24,26 @@ class Keymap_Global( Keymap ):
                 parent = wnd.getParent()
             return wnd
 
-        # ƒAƒvƒŠ‚ÌÅãˆÊƒEƒCƒ“ƒhƒE‚ğæ“¾‚·‚é
+        # ã‚¢ãƒ—ãƒªã®æœ€ä¸Šä½ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’å–å¾—ã™ã‚‹
         self.wnd_top = getTopLevelWindow(wnd)
 
-        # Ctrl-F12 : pyauto‚ÌmessageLoop‚ğ’†’f‚·‚é
+        # Ctrl-F12 : pyautoã®messageLoopã‚’ä¸­æ–­ã™ã‚‹
         self.registerKeyDownHandler( K( VK_F12, MODKEY_USER0 ), quitKeymap )
         self.registerKeyDownHandler( K( VK_F5, MODKEY_USER0 ), loadConfigFile )
 
-        # USER0-ª«©¨ : 10pixel’PˆÊ‚ÌƒEƒCƒ“ƒhƒE‚ÌˆÚ“®
+        # USER0-â†‘â†“â†â†’ : 10pixelå˜ä½ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ç§»å‹•
         self.registerKeyDownHandler( K( VK_LEFT, MODKEY_USER0 ), self.WindowMoveLeft )
         self.registerKeyDownHandler( K( VK_RIGHT, MODKEY_USER0 ), self.WindowMoveRight )
         self.registerKeyDownHandler( K( VK_UP, MODKEY_USER0 ), self.WindowMoveUp )
         self.registerKeyDownHandler( K( VK_DOWN, MODKEY_USER0 ), self.WindowMoveDown )
 
-        # USER0-Shift-ª«©¨ : 1pixel’PˆÊ‚ÌƒEƒCƒ“ƒhƒE‚ÌˆÚ“®
+        # USER0-Shift-â†‘â†“â†â†’ : 1pixelå˜ä½ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ç§»å‹•
         self.registerKeyDownHandler( K( VK_LEFT, MODKEY_USER0 | MODKEY_SHIFT ), self.WindowMoveLeft1dot )
         self.registerKeyDownHandler( K( VK_RIGHT, MODKEY_USER0 | MODKEY_SHIFT ), self.WindowMoveRight1dot )
         self.registerKeyDownHandler( K( VK_UP, MODKEY_USER0 | MODKEY_SHIFT ), self.WindowMoveUp1dot )
         self.registerKeyDownHandler( K( VK_DOWN, MODKEY_USER0 | MODKEY_SHIFT ), self.WindowMoveDown1dot )
 
-        # USER0-Ctrl-ª«©¨ : ‰æ–Ê‚Ì’[‚Ü‚ÅˆÚ“®
+        # USER0-Ctrl-â†‘â†“â†â†’ : ç”»é¢ã®ç«¯ã¾ã§ç§»å‹•
         self.registerKeyDownHandler( K( VK_LEFT, MODKEY_CTRL | MODKEY_USER0 ), self.WindowMoveLeftEdge )
         self.registerKeyDownHandler( K( VK_RIGHT, MODKEY_CTRL | MODKEY_USER0 ), self.WindowMoveRightEdge )
         self.registerKeyDownHandler( K( VK_UP, MODKEY_CTRL | MODKEY_USER0 ), self.WindowMoveUpEdge )
@@ -150,7 +150,7 @@ registorKeymap( ( None, None, None ), Keymap_Global )
 
 # ------------- Notepad --------------------------------------------------
 
-# ƒƒ‚’ ‚ğ ­‚µ‚¾‚¯ Emacs•—‚É‚·‚éƒTƒ“ƒvƒ‹
+# ãƒ¡ãƒ¢å¸³ã‚’ å°‘ã—ã ã‘ Emacsé¢¨ã«ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«
 class Keymap_Notepad( Keymap_Global ):
 
     PREFIX_CTRL_X = 1
@@ -160,7 +160,7 @@ class Keymap_Notepad( Keymap_Global ):
 
         #print "Keymap_Notepad.__init__"
 
-        # Ctrl-S : ‘O•ûŒŸõ
+        # Ctrl-S : å‰æ–¹æ¤œç´¢
         self.registerKeyDownHandler( K( 'S', MODKEY_CTRL ),
             [
                 KeyDown(VK_LCONTROL),
@@ -173,7 +173,7 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-R : Œã•ûŒŸõ
+        # Ctrl-R : å¾Œæ–¹æ¤œç´¢
         self.registerKeyDownHandler( K( 'R', MODKEY_CTRL ),
             [
                 KeyDown(VK_LCONTROL),
@@ -186,14 +186,14 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-B : ˆê•¶š¶‚ÉˆÚ“®
+        # Ctrl-B : ä¸€æ–‡å­—å·¦ã«ç§»å‹•
         self.registerKeyDownHandler( K( 'B', MODKEY_CTRL ),
             [
                 Key(VK_LEFT)
             ]
         )
 
-        # Alt-B : ˆê’PŒê¶‚ÉˆÚ“®
+        # Alt-B : ä¸€å˜èªå·¦ã«ç§»å‹•
         self.registerKeyDownHandler( K( 'B', MODKEY_ALT ),
             [
                 KeyDown(VK_LCONTROL),
@@ -202,14 +202,14 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-F : ˆê•¶š‰E‚ÉˆÚ“®
+        # Ctrl-F : ä¸€æ–‡å­—å³ã«ç§»å‹•
         self.registerKeyDownHandler( K( 'F', MODKEY_CTRL ),
             [
                 Key(VK_RIGHT)
             ]
         )
 
-        # Alt-F : ˆê’PŒê‰E‚ÉˆÚ“®
+        # Alt-F : ä¸€å˜èªå³ã«ç§»å‹•
         self.registerKeyDownHandler( K( 'F', MODKEY_ALT ),
             [
                 KeyDown(VK_LCONTROL),
@@ -218,49 +218,49 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-A : s“ª‚ÖˆÚ“®
+        # Ctrl-A : è¡Œé ­ã¸ç§»å‹•
         self.registerKeyDownHandler( K( 'A', MODKEY_CTRL ),
             [
                 Key(VK_HOME)
             ]
         )
 
-        # Ctrl-E : s––‚ÖˆÚ“®
+        # Ctrl-E : è¡Œæœ«ã¸ç§»å‹•
         self.registerKeyDownHandler( K( 'E', MODKEY_CTRL ),
             [
                 Key(VK_END)
             ]
         )
 
-        # Ctrl-N : ‰º‚ÉˆÚ“®
+        # Ctrl-N : ä¸‹ã«ç§»å‹•
         self.registerKeyDownHandler( K( 'N', MODKEY_CTRL ),
             [
                 Key(VK_DOWN)
             ]
         )
 
-        # Ctrl-P : ã‚ÉˆÚ“®
+        # Ctrl-P : ä¸Šã«ç§»å‹•
         self.registerKeyDownHandler( K( 'P', MODKEY_CTRL ),
             [
                 Key(VK_UP)
             ]
         )
 
-        # Alt-V : ã‚ÉƒXƒNƒ[ƒ‹
+        # Alt-V : ä¸Šã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«
         self.registerKeyDownHandler( K( 'V', MODKEY_ALT ),
             [
                 Key(VK_PRIOR)
             ]
         )
 
-        # Ctrl-V : ‰º‚ÉƒXƒNƒ[ƒ‹
+        # Ctrl-V : ä¸‹ã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«
         self.registerKeyDownHandler( K( 'V', MODKEY_CTRL ),
             [
                 Key(VK_NEXT)
             ]
         )
 
-        # Alt-DEL : ’¼‘O‚Ì’PŒê‚ğíœ‚·‚é
+        # Alt-DEL : ç›´å‰ã®å˜èªã‚’å‰Šé™¤ã™ã‚‹
         self.registerKeyDownHandler( K( VK_DELETE, MODKEY_ALT ),
             [
                 KeyDown(VK_LCONTROL),
@@ -275,14 +275,14 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-D : ƒLƒƒƒŒƒbƒg‚Ì‰E‘¤‚Ì•¶š‚ğíœ‚·‚é
+        # Ctrl-D : ã‚­ãƒ£ãƒ¬ãƒƒãƒˆã®å³å´ã®æ–‡å­—ã‚’å‰Šé™¤ã™ã‚‹
         self.registerKeyDownHandler( K( 'D', MODKEY_CTRL ),
             [
                 Key(VK_DELETE)
             ]
         )
 
-        # Alt-D : ’PŒê‚Ì––”ö‚Ü‚Åíœ‚·‚é
+        # Alt-D : å˜èªã®æœ«å°¾ã¾ã§å‰Šé™¤ã™ã‚‹
         self.registerKeyDownHandler( K( 'D', MODKEY_ALT ),
             [
                 KeyDown(VK_LCONTROL),
@@ -297,7 +297,7 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-K : s––‚Ü‚Åíœ‚·‚é
+        # Ctrl-K : è¡Œæœ«ã¾ã§å‰Šé™¤ã™ã‚‹
         self.registerKeyDownHandler( K( 'K', MODKEY_CTRL ),
             [
                 KeyDown(VK_LCONTROL),
@@ -306,14 +306,14 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-H : ƒLƒƒƒŒƒbƒg‚Ì¶‘¤‚Ì•¶š‚ğíœ‚·‚é
+        # Ctrl-H : ã‚­ãƒ£ãƒ¬ãƒƒãƒˆã®å·¦å´ã®æ–‡å­—ã‚’å‰Šé™¤ã™ã‚‹
         self.registerKeyDownHandler( K( 'H', MODKEY_CTRL ),
             [
                 Key(VK_BACK)
             ]
         )
 
-        # Ctrl-W : ƒŠ[ƒWƒ‡ƒ“‚ğØ‚èæ‚é
+        # Ctrl-W : ãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’åˆ‡ã‚Šå–ã‚‹
         self.registerKeyDownHandler( K( 'W', MODKEY_CTRL ),
             [
                 KeyDown(VK_LCONTROL),
@@ -322,7 +322,7 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Alt-W : ƒŠ[ƒWƒ‡ƒ“‚ğƒRƒs[‚·‚é
+        # Alt-W : ãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
         self.registerKeyDownHandler( K( 'W', MODKEY_ALT ),
             [
                 KeyDown(VK_LCONTROL),
@@ -331,7 +331,7 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-Y : “\‚è•t‚¯
+        # Ctrl-Y : è²¼ã‚Šä»˜ã‘
         self.registerKeyDownHandler( K( 'Y', MODKEY_CTRL ),
             [
                 KeyDown(VK_LCONTROL),
@@ -345,7 +345,7 @@ class Keymap_Notepad( Keymap_Global ):
             self._setPrefix_CTRL_X
         )
 
-        # Ctrl-X Ctrl-F : ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+        # Ctrl-X Ctrl-F : ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
         self.registerKeyDownHandler( K( 'F', MODKEY_CTRL, Keymap_Notepad.PREFIX_CTRL_X ),
             [
                 KeyDown(VK_LCONTROL),
@@ -354,7 +354,7 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-X Ctrl-S : ã‘‚«•Û‘¶
+        # Ctrl-X Ctrl-S : ä¸Šæ›¸ãä¿å­˜
         self.registerKeyDownHandler( K( 'S', MODKEY_CTRL, Keymap_Notepad.PREFIX_CTRL_X ),
             [
                 KeyDown(VK_LCONTROL),
@@ -363,7 +363,7 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-X Ctrl-W : –¼‘O‚ğ•t‚¯‚Ä•Û‘¶
+        # Ctrl-X Ctrl-W : åå‰ã‚’ä»˜ã‘ã¦ä¿å­˜
         self.registerKeyDownHandler( K( 'W', MODKEY_CTRL, Keymap_Notepad.PREFIX_CTRL_X ),
             [
                 KeyDown(VK_LMENU),
@@ -373,7 +373,7 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-X U : Œ³‚É–ß‚·
+        # Ctrl-X U : å…ƒã«æˆ»ã™
         self.registerKeyDownHandler( K( 'U', 0, Keymap_Notepad.PREFIX_CTRL_X ),
             [
                 KeyDown(VK_LCONTROL),
@@ -382,7 +382,7 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-X K : ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+        # Ctrl-X K : ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
         self.registerKeyDownHandler( K( 'K', 0, Keymap_Notepad.PREFIX_CTRL_X ),
             [
                 KeyDown(VK_LMENU),
@@ -391,7 +391,7 @@ class Keymap_Notepad( Keymap_Global ):
             ]
         )
 
-        # Ctrl-X Ctrl-C : ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+        # Ctrl-X Ctrl-C : ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
         self.registerKeyDownHandler( K( 'C', MODKEY_CTRL, Keymap_Notepad.PREFIX_CTRL_X ),
             [
                 KeyDown(VK_LMENU),
@@ -415,7 +415,7 @@ class Keymap_Putty(Keymap_Global):
 
         #print 'Keymap_Putty.__init__'
 
-        # Ctrl-TAB : ƒEƒCƒ“ƒhƒE‚ğØ‚è‘Ö‚¦‚é
+        # Ctrl-TAB : ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
         self.registerKeyDownHandler( K( VK_TAB, MODKEY_CTRL ), self.selectNext )
 
         self.wnd = wnd
