@@ -6,7 +6,13 @@
 #include <tchar.h>
 #include <tlhelp32.h>
 
-#include <python.h>
+#if defined(_DEBUG)
+#undef _DEBUG
+#include "python.h"
+#define _DEBUG
+#else
+#include "python.h"
+#endif
 
 #include "kbhook.h"
 #include "mousehook.h"

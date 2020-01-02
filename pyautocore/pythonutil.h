@@ -1,7 +1,13 @@
 #ifndef _PYTHONUTIL_H_
 #define _PYTHONUTIL_H_
 
+#if defined(_DEBUG)
+#undef _DEBUG
 #include "python.h"
+#define _DEBUG
+#else
+#include "python.h"
+#endif
 
 namespace PythonUtil
 {
