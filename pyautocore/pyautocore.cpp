@@ -933,7 +933,7 @@ static PyObject * Window_setForeground( PyObject * self, PyObject * args )
 			// 設定を元に戻す
 			if(fg_locktime_got && fg_locktime_set)
 			{
-				if( ! SystemParametersInfo( SPI_SETFOREGROUNDLOCKTIMEOUT,0,(void*)sp_time,0) )
+				if( ! SystemParametersInfo( SPI_SETFOREGROUNDLOCKTIMEOUT,0,(void*)(intptr_t)sp_time,0) )
 				{
 					printf("SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT) failed %d\n",GetLastError());
 				}
@@ -2265,7 +2265,7 @@ static PyObject * Input_send( PyObject * self, PyObject * args )
 		return NULL;
 	}
 
-	int item_num = PySequence_Length(py_input_list);
+	int item_num = (int)PySequence_Length(py_input_list);
 
 	INPUT * input = new INPUT[ item_num * 2 ];
 	int num_input = 0;
@@ -3095,7 +3095,7 @@ static PyModuleDef pyautocore_module =
 	NULL, NULL, NULL, NULL
 };
 
-extern "C" PyMODINIT_FUNC PyInit_pyautocore()
+PyMODINIT_FUNC PyInit_pyautocore()
 {
 	if( PyType_Ready(&PyType_Window)<0 ) return NULL;
 	if( PyType_Ready(&PyType_Image)<0 ) return NULL;

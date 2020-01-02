@@ -20,3 +20,4 @@ pyautocore.pyd
 pyautocore.ipdb
 pyautocore.iobj
 .vs/
+*.ilk
