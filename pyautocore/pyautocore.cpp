@@ -75,12 +75,16 @@ namespace pyauto
         	return ret;
         }
 
-        static bool PyStringTo_tString( const PyObject * pystr, _tString * str )
+        static bool PyStringTo_tString( PyObject * pystr, _tString * str )
         {
         	if( PyUnicode_Check(pystr) )
         	{
                 #if _UNICODE
-        		*str = (const wchar_t*)PyUnicode_AS_UNICODE(pystr);
+
+				Py_ssize_t len;
+				const wchar_t* s = PyUnicode_AsWideCharString(pystr, &len);
+
+        		*str = s;
                 #else
         		*str = WideCharToMultiByte( (const wchar_t*)PyUnicode_AS_UNICODE(pystr), PyUnicode_GET_SIZE(pystr) );
                 #endif
@@ -1055,7 +1059,7 @@ static BOOL CALLBACK _EnumWindowsCallback(HWND hwnd, LPARAM lParam)
 	_EnumWindowsData * data = (_EnumWindowsData*)lParam;
 
 	PyObject * pyarglist = Py_BuildValue("(OO)", WindowObject_FromHWND(hwnd), data->arg );
-	PyObject * pyresult = PyEval_CallObject( data->func, pyarglist );
+	PyObject * pyresult = PyObject_Call( data->func, pyarglist, NULL );
 	Py_DECREF(pyarglist);
 	if(pyresult)
 	{
@@ -1482,9 +1486,9 @@ static PyObject * Image_fromString( PyObject * self, PyObject * args )
 	int width;
 	int height;
 	const char * buf;
-	unsigned int bufsize;
+	Py_ssize_t bufsize;
 
-	if( ! PyArg_ParseTuple(args,"s(ii)s#", &mode, &width, &height, &buf, &bufsize ) )
+	if( ! PyArg_ParseTuple(args,"s(ii)y#", &mode, &width, &height, &buf, &bufsize ) )
 		return NULL;
 
 	if( strcmp( mode, "RGB" )!=0 )
@@ -2580,7 +2584,8 @@ static PyObject * Hook_destroy( PyObject* self, PyObject* args )
 
 static PyObject * Hook_getattr( PyObject_Hook * self, PyObject * pyattrname )
 {
-	const wchar_t * attrname = PyUnicode_AS_UNICODE(pyattrname);
+	Py_ssize_t len;
+	const wchar_t* attrname = PyUnicode_AsWideCharString(pyattrname, &len);
 
 	if( attrname[0]=='k' && wcscmp(attrname,L"keydown")==0 )
 	{
@@ -2707,7 +2712,8 @@ static PyObject * Hook_getattr( PyObject_Hook * self, PyObject * pyattrname )
 
 static int Hook_setattr( PyObject_Hook * self, PyObject * pyattrname, PyObject * pyvalue )
 {
-	const wchar_t * attrname = PyUnicode_AS_UNICODE(pyattrname);
+	Py_ssize_t len;
+	const wchar_t* attrname = PyUnicode_AsWideCharString(pyattrname, &len);
 
 	if( attrname[0]=='k' && wcscmp(attrname,L"keydown")==0 )
 	{

@@ -36,7 +36,7 @@ static int OnMouseButton( WPARAM wParam, MSLLHOOKSTRUCT * pmousellhook, PyObject
 	}
 
 	PyObject * pyarglist = Py_BuildValue("(iii)", pmousellhook->pt.x, pmousellhook->pt.y, vk );
-	PyObject * pyresult = PyEval_CallObject( pyfunc, pyarglist );
+	PyObject * pyresult = PyObject_Call( pyfunc, pyarglist, NULL );
 	Py_DECREF(pyarglist);
 	if(pyresult)
 	{
@@ -66,7 +66,7 @@ static int OnMouseWheel(WPARAM wParam, MSLLHOOKSTRUCT * pmousellhook, PyObject *
 	g.last_key_time = pmousellhook->time;
 
 	PyObject * pyarglist = Py_BuildValue("(iif)", pmousellhook->pt.x, pmousellhook->pt.y, ((float)(short)HIWORD(pmousellhook->mouseData))/WHEEL_DELTA);
-	PyObject * pyresult = PyEval_CallObject(pyfunc, pyarglist);
+	PyObject * pyresult = PyObject_Call(pyfunc, pyarglist, NULL);
 	Py_DECREF(pyarglist);
 	if (pyresult)
 	{

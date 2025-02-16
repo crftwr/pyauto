@@ -25,7 +25,7 @@ LRESULT Hook_Clipboard_wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 				if(g.pyhook && g.pyhook->clipboard)
 				{
 					PyObject * pyarglist = Py_BuildValue("()");
-					PyObject * pyresult = PyEval_CallObject( g.pyhook->clipboard, pyarglist );
+					PyObject * pyresult = PyObject_Call( g.pyhook->clipboard, pyarglist, NULL );
 					Py_DECREF(pyarglist);
 					if(pyresult)
 					{

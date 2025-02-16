@@ -53,7 +53,7 @@ LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 			g.last_key_time = pkbdllhook->time;
 			
 			PyObject * pyarglist = Py_BuildValue("(ii)", vk, scan );
-			PyObject * pyresult = PyEval_CallObject( g.pyhook->keydown, pyarglist );
+			PyObject * pyresult = PyObject_Call( g.pyhook->keydown, pyarglist, NULL );
 			Py_DECREF(pyarglist);
 			if(pyresult)
 			{
@@ -89,7 +89,7 @@ LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 			g.last_key_time = pkbdllhook->time;
 			
 			PyObject * pyarglist = Py_BuildValue("(ii)", vk, scan );
-			PyObject * pyresult = PyEval_CallObject( g.pyhook->keyup, pyarglist );
+			PyObject * pyresult = PyObject_Call( g.pyhook->keyup, pyarglist, NULL );
 			Py_DECREF(pyarglist);
 			if(pyresult)
 			{
